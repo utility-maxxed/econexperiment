@@ -1,16 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Economic Experiment</title>
-  <script src="script.js" defer></script>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Economic Experiment: Voting Systems</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Welcome to My Econ Experiment</h1>
-  <form id="experimentForm">
-    <label for="decision">Choose an amount to invest (0–10):</label>
-    <input type="number" id="decision" name="decision" min="0" max="10" required>
-    <button type="submit">Submit</button>
+  <h1>Governor Election Voting Experiment</h1>
+  <p>You are part of a polity of 5 people. Please vote for your preferred candidate.</p>
+
+  <form id="voting-form">
+    <!-- FPP -->
+    <div id="fpp-vote" style="display: none;">
+      <h3>FPP Candidates</h3>
+      <label>
+        <input type="radio" name="fpp-choice" value="A" required />
+        Candidate A – “There is not a liberal America and a conservative America - there is the United States of America.”
+      </label><br>
+      <label>
+        <input type="radio" name="fpp-choice" value="B" />
+        Candidate B – “We know what works. Freedom Works. We know what's right. Freedom is right.”
+      </label><br>
+      <label>
+        <input type="radio" name="fpp-choice" value="C" />
+        Candidate C – “This is the moment when we must come together to save this planet...”
+      </label>
+    </div>
+
+    <!-- RCV -->
+    <div id="rcv-vote" style="display: none;">
+      <h3>RCV Candidates (Rank each from 1 to 3, no duplicates)</h3>
+      <label>
+        Candidate A – “There is not a liberal America and a conservative America - there is the United States of America.”<br>
+        Rank:
+        <input type="number" name="rcv-A" min="1" max="3" required />
+      </label><br>
+      <label>
+        Candidate B – “We know what works. Freedom Works. We know what's right. Freedom is right.”<br>
+        Rank:
+        <input type="number" name="rcv-B" min="1" max="3" required />
+      </label><br>
+      <label>
+        Candidate C – “This is the moment when we must come together to save this planet...”<br>
+        Rank:
+        <input type="number" name="rcv-C" min="1" max="3" required />
+      </label>
+    </div>
+
+    <br>
+    <button type="submit">Submit Vote</button>
   </form>
+
+  <div id="result" style="display: none; margin-top: 30px;"></div>
+
+  <script>
+    // Random group assignment on page load
+    const group = Math.random() < 0.5 ? 'fpp' : 'rcv';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById(`${group}-vote`).style.display = 'block';
+    });
+
+    // Optional basic duplicate-checking logic for RCV
+    document.getElementById('voting-form').addEventListener('submit', (e) => {
+      if (group === 'rcv') {
+        const a = parseInt(document.querySelector('input[name="rcv-A"]').value);
+        const b = parseInt(document.querySelector('input[name="rcv-B"]').value);
+        const c = parseInt(document.querySelector('input[name="rcv-C"]').value);
+
+        const ranks = [a, b, c];
+        const hasDuplicates = new Set(ranks).size !== ranks.length;
+
+        if (hasDuplicates) {
+          e.preventDefault();
+          alert('Each candidate must have a unique rank from 1 to 3.');
+          return false;
+        }
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
