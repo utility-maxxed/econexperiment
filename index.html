@@ -181,28 +181,27 @@
       responseDiv.style.display = "block";
     });
   </script>
-
-  <script>
-  document.getElementById("demographic-form").addEventListener("submit", function(e) {
+<script>
+  document.getElementById("vote-form").addEventListener("submit", function(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
 
     const data = {
-      income: formData.get("income"),
-      race: formData.get("race"),
-      gender: formData.get("gender"),
-      registered: formData.get("registered"),
-      votedBefore: formData.get("votedBefore"),
-      votedLast: formData.get("votedLast"),
-      fpp: formData.get("fpp"),        // For FPP voting
-      rcvA: formData.get("rcv-A"),     // For RCV voting
-      rcvB: formData.get("rcv-B"),
-      rcvC: formData.get("rcv-C"),
-      feeling: formData.get("feeling") // For follow-up feeling question
+      income: document.querySelector('input[name="income"]:checked')?.value,
+      race: document.querySelector('input[name="race"]:checked')?.value,
+      gender: document.querySelector('input[name="gender"]:checked')?.value,
+      registered: document.querySelector('input[name="registered"]:checked')?.value,
+      votedBefore: document.querySelector('input[name="votedBefore"]:checked')?.value,
+      votedLast: document.querySelector('input[name="votedLast"]:checked')?.value,
+      fpp: document.querySelector('input[name="fpp"]:checked')?.value,   // For FPP voting
+      rcvA: document.querySelector('input[name="rcv-A"]').value,         // For RCV voting
+      rcvB: document.querySelector('input[name="rcv-B"]').value,
+      rcvC: document.querySelector('input[name="rcv-C"]').value,
+      feeling: document.querySelector('input[name="feeling"]').value      // For follow-up feeling question
     };
 
-    // Send the form data to the Google Apps Script
+    // Send the vote data to the Google Apps Script
     fetch("https://script.google.com/macros/s/AKfycbwR8xYTMr7m8AnJzYPWUz1gVBVHeeVhwdRHRfPQIZmk7upACkaeKNDc-q8FkU38kk1zkw/exec", {
       method: "POST",
       body: new URLSearchParams(data),
@@ -210,15 +209,13 @@
     .then(response => response.text())
     .then(result => {
       console.log("Success:", result);
-      // Hide the demographic form and show the voting form
-      document.getElementById("demographic-section").style.display = "none";
-      document.getElementById("voting-section").style.display = "block";
+      // Show the result and follow-up question
+      document.getElementById("follow-up").style.display = "block";
     })
     .catch(error => {
       console.error("Error:", error);
     });
   });
 </script>
-
 </body>
 </html>
