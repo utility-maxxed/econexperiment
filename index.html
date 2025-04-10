@@ -2,86 +2,185 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Economic Experiment: Voting Systems</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Voting Experiment</title>
 </head>
 <body>
-  <h1>Governor Election Voting Experiment</h1>
-  <p>You are part of a polity of 5 people. Please vote for your preferred candidate.</p>
 
-  <form id="voting-form">
-    <!-- FPP -->
-    <div id="fpp-vote" style="display: none;">
-      <h3>FPP Candidates</h3>
-      <label>
-        <input type="radio" name="fpp-choice" value="A" required />
-        Candidate A – “There is not a liberal America and a conservative America - there is the United States of America.”
-      </label><br>
-      <label>
-        <input type="radio" name="fpp-choice" value="B" />
-        Candidate B – “We know what works. Freedom Works. We know what's right. Freedom is right.”
-      </label><br>
-      <label>
-        <input type="radio" name="fpp-choice" value="C" />
-        Candidate C – “This is the moment when we must come together to save this planet...”
-      </label>
+  <!-- Demographic Questions Page -->
+  <div id="demographic-section">
+    <h2>Demographic Questions</h2>
+    <form id="demographic-form">
+      <p><strong>1. What is your household income level?</strong></p>
+      <label><input type="radio" name="income" value="0-16550"> $0 to $16,550</label><br>
+      <label><input type="radio" name="income" value="16551-63100"> $16,551 to $63,100</label><br>
+      <label><input type="radio" name="income" value="63101-100500"> $63,101 to $100,500</label><br>
+      <label><input type="radio" name="income" value="100501-191950"> $100,501 to $191,950</label><br>
+      <label><input type="radio" name="income" value="191951-243700"> $191,951 to $243,700</label><br>
+      <label><input type="radio" name="income" value=">243701"> more than $243,701</label><br><br>
+
+      <p><strong>2. What is your race?</strong></p>
+      <label><input type="radio" name="race" value="White"> White</label><br>
+      <label><input type="radio" name="race" value="Black/African American"> Black/African American</label><br>
+      <label><input type="radio" name="race" value="Hispanic/Latino"> Hispanic/Latino</label><br>
+      <label><input type="radio" name="race" value="East Asian"> East Asian</label><br>
+      <label><input type="radio" name="race" value="South Asian"> South Asian</label><br>
+      <label><input type="radio" name="race" value="Other"> Other</label><br><br>
+
+      <p><strong>3. What is your gender?</strong></p>
+      <label><input type="radio" name="gender" value="Male"> Male</label><br>
+      <label><input type="radio" name="gender" value="Female"> Female</label><br><br>
+
+      <p><strong>4. Are you registered to vote?</strong></p>
+      <label><input type="radio" name="registered" value="Yes"> Yes</label><br>
+      <label><input type="radio" name="registered" value="No"> No</label><br><br>
+
+      <p><strong>5. Have you voted before?</strong></p>
+      <label><input type="radio" name="votedBefore" value="Yes"> Yes</label><br>
+      <label><input type="radio" name="votedBefore" value="No"> No</label><br><br>
+
+      <p><strong>6. Did you vote in the last national elections?</strong></p>
+      <label><input type="radio" name="votedLast" value="Yes"> Yes</label><br>
+      <label><input type="radio" name="votedLast" value="No"> No</label><br><br>
+
+      <button type="submit">Continue to Voting</button>
+    </form>
+  </div>
+
+  <!-- Voting Section (initially hidden) -->
+  <div id="voting-section" style="display: none;">
+    <h2>Governor Election</h2>
+    <p id="intro-message">You are part of a polity of 5 people. Please vote for your preferred candidate.</p>
+
+    <form id="vote-form">
+      <!-- FPP Section -->
+      <div id="fpp-section" style="display: none;">
+        <h3>Vote for ONE candidate (FPP)</h3>
+        <label><input type="radio" name="fpp" value="A"> Candidate A - "I will lower taxes and increase policing."</label><br>
+        <label><input type="radio" name="fpp" value="B"> Candidate B - "I will increase taxes on the wealthy and improve public services."</label><br>
+        <label><input type="radio" name="fpp" value="C"> Candidate C - "I will reduce the power of the central government and give more control to local communities."</label><br>
+      </div>
+
+      <!-- RCV Section -->
+      <div id="rcv-section" style="display: none;">
+        <h3>Rank candidates from 1 to 3 (RCV)</h3>
+        <label>Candidate A - "I will lower taxes and increase policing.": 
+          <input type="number" name="rcv-A" min="1" max="3">
+        </label><br>
+        <label>Candidate B - "I will increase taxes on the wealthy and improve public services.": 
+          <input type="number" name="rcv-B" min="1" max="3">
+        </label><br>
+        <label>Candidate C - "I will reduce the power of the central government and give more control to local communities.": 
+          <input type="number" name="rcv-C" min="1" max="3">
+        </label><br>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="result" style="display: none; margin-top: 20px;"></div>
+
+    <!-- Follow-up question -->
+    <div id="follow-up" style="display: none; margin-top: 20px;">
+      <p><strong>Since the candidate you voted for did not win, how do you feel towards the candidate that won?</strong></p>
+      <form id="feeling-form">
+        <label for="feeling-range">Your feeling (1 = Strongly Positive, 7 = Strongly Negative):</label><br>
+
+        <div style="width: 300px; margin-top: 10px;">
+          <input 
+            type="range" 
+            id="feeling-range" 
+            name="feeling" 
+            min="1" 
+            max="7" 
+            value="4" 
+            style="width: 100%; display: block; margin-bottom: 5px;"
+          >
+          <div style="display: flex; justify-content: space-between;">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+          </div>
+        </div>
+        <br>
+        <button type="submit">Submit</button>
+      </form>
+      <div id="follow-up-response" style="display: none; margin-top: 10px;"></div>
     </div>
-
-    <!-- RCV -->
-    <div id="rcv-vote" style="display: none;">
-      <h3>RCV Candidates (Rank each from 1 to 3, no duplicates)</h3>
-      <label>
-        Candidate A – “There is not a liberal America and a conservative America - there is the United States of America.”<br>
-        Rank:
-        <input type="number" name="rcv-A" min="1" max="3" required />
-      </label><br>
-      <label>
-        Candidate B – “We know what works. Freedom Works. We know what's right. Freedom is right.”<br>
-        Rank:
-        <input type="number" name="rcv-B" min="1" max="3" required />
-      </label><br>
-      <label>
-        Candidate C – “This is the moment when we must come together to save this planet...”<br>
-        Rank:
-        <input type="number" name="rcv-C" min="1" max="3" required />
-      </label>
-    </div>
-
-    <br>
-    <button type="submit">Submit Vote</button>
-  </form>
-
-  <div id="result" style="display: none; margin-top: 30px;"></div>
+  </div>
 
   <script>
-    // Random group assignment on page load
-    const group = Math.random() < 0.5 ? 'fpp' : 'rcv';
+    const group = Math.random() < 0.5 ? "fpp" : "rcv";
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById(`${group}-vote`).style.display = 'block';
+    // Show the voting section only after demographic form is submitted
+    document.getElementById("demographic-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("demographic-section").style.display = "none";
+      document.getElementById("voting-section").style.display = "block";
+
+      if (group === "fpp") {
+        document.getElementById("fpp-section").style.display = "block";
+      } else {
+        document.getElementById("rcv-section").style.display = "block";
+      }
     });
 
-    // Optional basic duplicate-checking logic for RCV
-    document.getElementById('voting-form').addEventListener('submit', (e) => {
-      if (group === 'rcv') {
-        const a = parseInt(document.querySelector('input[name="rcv-A"]').value);
-        const b = parseInt(document.querySelector('input[name="rcv-B"]').value);
-        const c = parseInt(document.querySelector('input[name="rcv-C"]').value);
+    document.getElementById("vote-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("intro-message").style.display = "none";
 
-        const ranks = [a, b, c];
-        const hasDuplicates = new Set(ranks).size !== ranks.length;
+      let message = "";
 
-        if (hasDuplicates) {
-          e.preventDefault();
-          alert('Each candidate must have a unique rank from 1 to 3.');
-          return false;
+      if (group === "fpp") {
+        const selected = document.querySelector('input[name="fpp"]:checked');
+        if (!selected) {
+          message = "Please select a candidate.";
+        } else {
+          switch (selected.value) {
+            case "A":
+              message = "You voted for Candidate A. Most people voted for Candidate B. Your candidate lost.";
+              break;
+            case "B":
+              message = "You voted for Candidate B. Most people voted for Candidate A. Your candidate lost.";
+              break;
+            case "C":
+              message = "You voted for Candidate C. Most people voted for Candidate B. Your candidate lost.";
+              break;
+          }
+        }
+      } else if (group === "rcv") {
+        const rcvA = parseInt(document.querySelector('input[name="rcv-A"]').value);
+        const rcvB = parseInt(document.querySelector('input[name="rcv-B"]').value);
+        const rcvC = parseInt(document.querySelector('input[name="rcv-C"]').value);
+
+        const ranks = [rcvA, rcvB, rcvC];
+        const isValid = ranks.every(val => [1, 2, 3].includes(val)) && new Set(ranks).size === 3;
+
+        if (!isValid) {
+          message = "Please rank all candidates uniquely using 1, 2, and 3.";
+        } else {
+          if (rcvA === 1) message = "You ranked Candidate A first. Most others ranked B. Your candidate lost.";
+          else if (rcvB === 1) message = "You ranked Candidate B first. Most others ranked A. Your candidate lost.";
+          else if (rcvC === 1) message = "You ranked Candidate C first. Most others ranked B. Your candidate lost.";
         }
       }
+
+      document.getElementById("vote-form").style.display = "none";
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerText = message;
+      resultDiv.style.display = "block";
+
+      if (!message.startsWith("Please")) {
+        document.getElementById("follow-up").style.display = "block";
+      }
+    });
+
+    document.getElementById("feeling-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const sliderValue = document.getElementById("feeling-range").value;
+      const responseDiv = document.getElementById("follow-up-response");
+
+      responseDiv.innerText = `Thanks for your response. You selected: ${sliderValue}`;
+      responseDiv.style.display = "block";
     });
   </script>
 
-  <script src="script.js"></script>
 </body>
 </html>
-
