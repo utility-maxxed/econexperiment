@@ -182,5 +182,43 @@
     });
   </script>
 
+  <script>
+  document.getElementById("demographic-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+
+    const data = {
+      income: formData.get("income"),
+      race: formData.get("race"),
+      gender: formData.get("gender"),
+      registered: formData.get("registered"),
+      votedBefore: formData.get("votedBefore"),
+      votedLast: formData.get("votedLast"),
+      fpp: formData.get("fpp"),        // For FPP voting
+      rcvA: formData.get("rcv-A"),     // For RCV voting
+      rcvB: formData.get("rcv-B"),
+      rcvC: formData.get("rcv-C"),
+      feeling: formData.get("feeling") // For follow-up feeling question
+    };
+
+    // Send the form data to the Google Apps Script
+    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
+      method: "POST",
+      body: new URLSearchParams(data),
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log("Success:", result);
+      // Hide the demographic form and show the voting form
+      document.getElementById("demographic-section").style.display = "none";
+      document.getElementById("voting-section").style.display = "block";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  });
+</script>
+
 </body>
 </html>
